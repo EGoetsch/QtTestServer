@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <mainwindow.h>
 
 
 class Server : public QWidget {
@@ -20,6 +21,8 @@ public:
             qDebug() << "Server started!";
         }
     }
+
+    void setWindow(MainWindow *w){ this->w = w;}
 
 private slots:
     void newConnection() {
@@ -37,11 +40,20 @@ private slots:
                 qDebug() << "Stopping server...";
                 qApp->quit();
             }
+            if (message == "hide") {
+                qDebug() << "Stopping server...";
+                w->hide();
+            }
+            if (message == "show") {
+                qDebug() << "SHOW";
+                w->show();
+            }
         }
     }
 
 private:
     QTcpServer *server;
+    MainWindow *w;
 };
 
 #endif // SERVER_H
